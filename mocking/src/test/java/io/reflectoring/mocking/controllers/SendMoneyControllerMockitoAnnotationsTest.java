@@ -4,39 +4,38 @@ import io.reflectoring.mocking.services.SendMoneyService;
 import io.reflectoring.mocking.services.SendMoneyUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * This is just a template for the test with Mockito
- * Annotations and will be used to highlight the differences
- * with a @WebMvcTest -Test!!!!
- */
-@WebMvcTest(SendMoneyController.class)
+@ExtendWith(MockitoExtension.class)
 class SendMoneyControllerMockitoAnnotationsTest {
 
-    @MockBean
+    @Mock
     SendMoneyService sendMoneyServMock;
 
-    @Autowired
+    @InjectMocks
+    SendMoneyController sendMoneyController;
+
     MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
+        mockMvc = standaloneSetup(sendMoneyController).build();
     }
 
     @Test
     void sendMoney() throws Exception {
         // Given
-        SendMoneyUseCase.SendMoneyCommand sendMoneyCmd =
-                new SendMoneyUseCase.SendMoneyCommand(1234L,4321L,250);
+        SendMoneyUseCase.SendMoneyCommand sendMoneyCmd = new SendMoneyUseCase.SendMoneyCommand(1234L,4321L,250);
 
         when(sendMoneyServMock.sendMoney(sendMoneyCmd)).thenReturn(true);
 
