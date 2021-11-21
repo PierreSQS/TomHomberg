@@ -14,8 +14,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * This is just a template for the test with Mockito
+ * Annotations and will be used to highlight the differences
+ * with a @WebMvcTest -Test!!!!
+ */
 @WebMvcTest(SendMoneyController.class)
-class SendMoneyControllerTest {
+class SendMoneyControllerMockitoAnnotationsTest {
 
     @MockBean
     SendMoneyService sendMoneyServMock;
@@ -30,7 +35,8 @@ class SendMoneyControllerTest {
     @Test
     void sendMoney() throws Exception {
         // Given
-        SendMoneyUseCase.SendMoneyCommand sendMoneyCmd = new SendMoneyUseCase.SendMoneyCommand(1234L,4321L,250);
+        SendMoneyUseCase.SendMoneyCommand sendMoneyCmd =
+                new SendMoneyUseCase.SendMoneyCommand(1234L,4321L,250);
 
         when(sendMoneyServMock.sendMoney(sendMoneyCmd)).thenReturn(true);
 
